@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b8c4d294f4544235a567442a3d678ea5" Name="Diagram1">
+        <EntityTypeShape EntityType="Model.Contract" Width="1.5" PointX="3" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.EmployeeDetail" Width="1.5" PointX="3" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Employee" Width="1.5" PointX="0.75" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.EmpPlacement" Width="1.5" PointX="6" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Branch" Width="1.5" PointX="1.5" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Company" Width="1.5" PointX="1.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Department" Width="1.5" PointX="3.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Position" Width="1.5" PointX="3.75" PointY="18.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.DataScope" Width="1.5" PointX="5.75" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Permission" Width="1.5" PointX="1.5" PointY="25.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Role" Width="1.5" PointX="0.75" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.User" Width="1.5" PointX="3" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.AttendanceDaily" Width="1.5" PointX="3" PointY="21" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Machine" Width="1.5" PointX="3.75" PointY="25.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Roster" Width="1.5" PointX="6" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Shift" Width="1.5" PointX="3.75" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.TimeClockRaw" Width="1.5" PointX="6" PointY="25.25" IsExpanded="true" />
+        <AssociationConnector Association="Model.FK__Contracts__Emplo__5165187F" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__Contracts__Signe__52593CB8" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__EmployeeD__Emplo__48CFD27E" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__Attendanc__Emplo__7D439ABD" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__EmpPlacem__Emplo__4CA06362" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__Rosters__Employe__6FE99F9F" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__Users__EmployeeI__5812160E" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__EmpPlacem__Depar__4D94879B" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__EmpPlacem__Posit__4E88ABD4" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__Branches__Compan__3A81B327" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__DataScope__Branc__693CA210" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__Departmen__Branc__3D5E1FD2" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__Machines__Branch__74AE54BC" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__Departmen__Paren__3E52440B" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__DataScope__RoleI__68487DD7" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__TimeClock__Machi__787EE5A0" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK__Rosters__ShiftId__70DDC3D8" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.RolePermissions" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.UserRoles" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

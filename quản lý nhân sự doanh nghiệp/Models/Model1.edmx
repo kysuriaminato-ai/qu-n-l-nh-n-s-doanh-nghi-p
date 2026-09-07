@@ -1,0 +1,1303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Contracts">
+          <Key>
+            <PropertyRef Name="ContractId" />
+          </Key>
+          <Property Name="ContractId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="ContractType" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="StartDate" Type="date" Nullable="false" />
+          <Property Name="EndDate" Type="date" />
+          <Property Name="SignerId" Type="int" />
+        </EntityType>
+        <EntityType Name="EmployeeDetails">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="IdentityCard" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="500" />
+          <Property Name="Phone" Type="varchar" MaxLength="20" />
+          <Property Name="Email" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Employees">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmpCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="10" />
+          <Property Name="BirthDate" Type="date" />
+          <Property Name="JoinDate" Type="date" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="EmpPlacements">
+          <Key>
+            <PropertyRef Name="PlacementId" />
+          </Key>
+          <Property Name="PlacementId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="DepartmentId" Type="int" Nullable="false" />
+          <Property Name="PositionId" Type="int" Nullable="false" />
+          <Property Name="EffectiveDate" Type="date" Nullable="false" />
+          <Property Name="IsCurrent" Type="bit" />
+        </EntityType>
+        <EntityType Name="Branches">
+          <Key>
+            <PropertyRef Name="BranchId" />
+          </Key>
+          <Property Name="BranchId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="BranchName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Companies">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="TaxCode" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedAt" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Departments">
+          <Key>
+            <PropertyRef Name="DepartmentId" />
+          </Key>
+          <Property Name="DepartmentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BranchId" Type="int" Nullable="false" />
+          <Property Name="ParentDeptId" Type="int" />
+          <Property Name="DeptName" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Positions">
+          <Key>
+            <PropertyRef Name="PositionId" />
+          </Key>
+          <Property Name="PositionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PositionName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Level" Type="int" />
+        </EntityType>
+        <EntityType Name="DataScopes">
+          <Key>
+            <PropertyRef Name="ScopeId" />
+          </Key>
+          <Property Name="ScopeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="BranchId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Permissions">
+          <Key>
+            <PropertyRef Name="PermissionId" />
+          </Key>
+          <Property Name="PermissionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Module" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="RolePermissions">
+          <Key>
+            <PropertyRef Name="RoleId" />
+            <PropertyRef Name="PermissionId" />
+          </Key>
+          <Property Name="RoleId" Type="int" Nullable="false" />
+          <Property Name="PermissionId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="UserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="PasswordHash" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="EmployeeId" Type="int" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreatedAt" Type="datetime" />
+        </EntityType>
+        <EntityType Name="AttendanceDaily">
+          <Key>
+            <PropertyRef Name="AttId" />
+          </Key>
+          <Property Name="AttId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="TimeIn" Type="datetime" />
+          <Property Name="TimeOut" Type="datetime" />
+          <Property Name="WorkHours" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="LateMins" Type="int" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Machines">
+          <Key>
+            <PropertyRef Name="MachineId" />
+          </Key>
+          <Property Name="MachineId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IPAddress" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="BranchId" Type="int" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Rosters">
+          <Key>
+            <PropertyRef Name="RosterId" />
+          </Key>
+          <Property Name="RosterId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeId" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="ShiftId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Shifts">
+          <Key>
+            <PropertyRef Name="ShiftId" />
+          </Key>
+          <Property Name="ShiftId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="StartTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="EndTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="BreakTimeMins" Type="int" />
+        </EntityType>
+        <EntityType Name="TimeClockRaw">
+          <Key>
+            <PropertyRef Name="LogId" />
+          </Key>
+          <Property Name="LogId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MachineId" Type="int" Nullable="false" />
+          <Property Name="EmpCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="PunchTime" Type="datetime" Nullable="false" />
+          <Property Name="Type" Type="varchar" MaxLength="10" />
+          <Property Name="CreatedAt" Type="datetime" />
+        </EntityType>
+        <Association Name="FK__Attendanc__Emplo__7D439ABD">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="AttendanceDaily" Type="Self.AttendanceDaily" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="AttendanceDaily">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Branches__Compan__3A81B327">
+          <End Role="Companies" Type="Self.Companies" Multiplicity="1" />
+          <End Role="Branches" Type="Self.Branches" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companies">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Branches">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Contracts__Emplo__5165187F">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="Contracts" Type="Self.Contracts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="Contracts">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Contracts__Signe__52593CB8">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+          <End Role="Contracts" Type="Self.Contracts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="Contracts">
+              <PropertyRef Name="SignerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DataScope__Branc__693CA210">
+          <End Role="Branches" Type="Self.Branches" Multiplicity="1" />
+          <End Role="DataScopes" Type="Self.DataScopes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="BranchId" />
+            </Principal>
+            <Dependent Role="DataScopes">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DataScope__RoleI__68487DD7">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="DataScopes" Type="Self.DataScopes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="DataScopes">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Departmen__Branc__3D5E1FD2">
+          <End Role="Branches" Type="Self.Branches" Multiplicity="1" />
+          <End Role="Departments" Type="Self.Departments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="BranchId" />
+            </Principal>
+            <Dependent Role="Departments">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Departmen__Paren__3E52440B">
+          <End Role="Departments" Type="Self.Departments" Multiplicity="0..1" />
+          <End Role="Departments1" Type="Self.Departments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="DepartmentId" />
+            </Principal>
+            <Dependent Role="Departments1">
+              <PropertyRef Name="ParentDeptId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EmployeeD__Emplo__48CFD27E">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="EmployeeDetails">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EmpPlacem__Depar__4D94879B">
+          <End Role="Departments" Type="Self.Departments" Multiplicity="1" />
+          <End Role="EmpPlacements" Type="Self.EmpPlacements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="DepartmentId" />
+            </Principal>
+            <Dependent Role="EmpPlacements">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EmpPlacem__Emplo__4CA06362">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="EmpPlacements" Type="Self.EmpPlacements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="EmpPlacements">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EmpPlacem__Posit__4E88ABD4">
+          <End Role="Positions" Type="Self.Positions" Multiplicity="1" />
+          <End Role="EmpPlacements" Type="Self.EmpPlacements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Positions">
+              <PropertyRef Name="PositionId" />
+            </Principal>
+            <Dependent Role="EmpPlacements">
+              <PropertyRef Name="PositionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Machines__Branch__74AE54BC">
+          <End Role="Branches" Type="Self.Branches" Multiplicity="1" />
+          <End Role="Machines" Type="Self.Machines" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="BranchId" />
+            </Principal>
+            <Dependent Role="Machines">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RolePermi__Permi__656C112C">
+          <End Role="Permissions" Type="Self.Permissions" Multiplicity="1" />
+          <End Role="RolePermissions" Type="Self.RolePermissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Permissions">
+              <PropertyRef Name="PermissionId" />
+            </Principal>
+            <Dependent Role="RolePermissions">
+              <PropertyRef Name="PermissionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RolePermi__RoleI__6477ECF3">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="RolePermissions" Type="Self.RolePermissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="RolePermissions">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rosters__Employe__6FE99F9F">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="1" />
+          <End Role="Rosters" Type="Self.Rosters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="Rosters">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rosters__ShiftId__70DDC3D8">
+          <End Role="Shifts" Type="Self.Shifts" Multiplicity="1" />
+          <End Role="Rosters" Type="Self.Rosters" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Shifts">
+              <PropertyRef Name="ShiftId" />
+            </Principal>
+            <Dependent Role="Rosters">
+              <PropertyRef Name="ShiftId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TimeClock__Machi__787EE5A0">
+          <End Role="Machines" Type="Self.Machines" Multiplicity="1" />
+          <End Role="TimeClockRaw" Type="Self.TimeClockRaw" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Machines">
+              <PropertyRef Name="MachineId" />
+            </Principal>
+            <Dependent Role="TimeClockRaw">
+              <PropertyRef Name="MachineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserRoles__RoleI__5EBF139D">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="UserRoles" Type="Self.UserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="UserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserRoles__UserI__5DCAEF64">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserRoles" Type="Self.UserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Users__EmployeeI__5812160E">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="Contracts" EntityType="Self.Contracts" Schema="HR" store:Type="Tables" />
+          <EntitySet Name="EmployeeDetails" EntityType="Self.EmployeeDetails" Schema="HR" store:Type="Tables" />
+          <EntitySet Name="Employees" EntityType="Self.Employees" Schema="HR" store:Type="Tables" />
+          <EntitySet Name="EmpPlacements" EntityType="Self.EmpPlacements" Schema="HR" store:Type="Tables" />
+          <EntitySet Name="Branches" EntityType="Self.Branches" Schema="Org" store:Type="Tables" />
+          <EntitySet Name="Companies" EntityType="Self.Companies" Schema="Org" store:Type="Tables" />
+          <EntitySet Name="Departments" EntityType="Self.Departments" Schema="Org" store:Type="Tables" />
+          <EntitySet Name="Positions" EntityType="Self.Positions" Schema="Org" store:Type="Tables" />
+          <EntitySet Name="DataScopes" EntityType="Self.DataScopes" Schema="Sec" store:Type="Tables" />
+          <EntitySet Name="Permissions" EntityType="Self.Permissions" Schema="Sec" store:Type="Tables" />
+          <EntitySet Name="RolePermissions" EntityType="Self.RolePermissions" Schema="Sec" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="Sec" store:Type="Tables" />
+          <EntitySet Name="UserRoles" EntityType="Self.UserRoles" Schema="Sec" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="Sec" store:Type="Tables" />
+          <EntitySet Name="AttendanceDaily" EntityType="Self.AttendanceDaily" Schema="Time" store:Type="Tables" />
+          <EntitySet Name="Machines" EntityType="Self.Machines" Schema="Time" store:Type="Tables" />
+          <EntitySet Name="Rosters" EntityType="Self.Rosters" Schema="Time" store:Type="Tables" />
+          <EntitySet Name="Shifts" EntityType="Self.Shifts" Schema="Time" store:Type="Tables" />
+          <EntitySet Name="TimeClockRaw" EntityType="Self.TimeClockRaw" Schema="Time" store:Type="Tables" />
+          <AssociationSet Name="FK__Attendanc__Emplo__7D439ABD" Association="Self.FK__Attendanc__Emplo__7D439ABD">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="AttendanceDaily" EntitySet="AttendanceDaily" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Branches__Compan__3A81B327" Association="Self.FK__Branches__Compan__3A81B327">
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="Branches" EntitySet="Branches" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Contracts__Emplo__5165187F" Association="Self.FK__Contracts__Emplo__5165187F">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Contracts" EntitySet="Contracts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Contracts__Signe__52593CB8" Association="Self.FK__Contracts__Signe__52593CB8">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Contracts" EntitySet="Contracts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DataScope__Branc__693CA210" Association="Self.FK__DataScope__Branc__693CA210">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="DataScopes" EntitySet="DataScopes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DataScope__RoleI__68487DD7" Association="Self.FK__DataScope__RoleI__68487DD7">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="DataScopes" EntitySet="DataScopes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Departmen__Branc__3D5E1FD2" Association="Self.FK__Departmen__Branc__3D5E1FD2">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Departments" EntitySet="Departments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Departmen__Paren__3E52440B" Association="Self.FK__Departmen__Paren__3E52440B">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="Departments1" EntitySet="Departments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EmployeeD__Emplo__48CFD27E" Association="Self.FK__EmployeeD__Emplo__48CFD27E">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EmpPlacem__Depar__4D94879B" Association="Self.FK__EmpPlacem__Depar__4D94879B">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="EmpPlacements" EntitySet="EmpPlacements" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EmpPlacem__Emplo__4CA06362" Association="Self.FK__EmpPlacem__Emplo__4CA06362">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="EmpPlacements" EntitySet="EmpPlacements" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EmpPlacem__Posit__4E88ABD4" Association="Self.FK__EmpPlacem__Posit__4E88ABD4">
+            <End Role="Positions" EntitySet="Positions" />
+            <End Role="EmpPlacements" EntitySet="EmpPlacements" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Machines__Branch__74AE54BC" Association="Self.FK__Machines__Branch__74AE54BC">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Machines" EntitySet="Machines" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RolePermi__Permi__656C112C" Association="Self.FK__RolePermi__Permi__656C112C">
+            <End Role="Permissions" EntitySet="Permissions" />
+            <End Role="RolePermissions" EntitySet="RolePermissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RolePermi__RoleI__6477ECF3" Association="Self.FK__RolePermi__RoleI__6477ECF3">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="RolePermissions" EntitySet="RolePermissions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rosters__Employe__6FE99F9F" Association="Self.FK__Rosters__Employe__6FE99F9F">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Rosters" EntitySet="Rosters" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rosters__ShiftId__70DDC3D8" Association="Self.FK__Rosters__ShiftId__70DDC3D8">
+            <End Role="Shifts" EntitySet="Shifts" />
+            <End Role="Rosters" EntitySet="Rosters" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TimeClock__Machi__787EE5A0" Association="Self.FK__TimeClock__Machi__787EE5A0">
+            <End Role="Machines" EntitySet="Machines" />
+            <End Role="TimeClockRaw" EntitySet="TimeClockRaw" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserRoles__RoleI__5EBF139D" Association="Self.FK__UserRoles__RoleI__5EBF139D">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="UserRoles" EntitySet="UserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserRoles__UserI__5DCAEF64" Association="Self.FK__UserRoles__UserI__5DCAEF64">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserRoles" EntitySet="UserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Users__EmployeeI__5812160E" Association="Self.FK__Users__EmployeeI__5812160E">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Contract">
+          <Key>
+            <PropertyRef Name="ContractId" />
+          </Key>
+          <Property Name="ContractId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="ContractType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <Property Name="SignerId" Type="Int32" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__Contracts__Emplo__5165187F" FromRole="Contracts" ToRole="Employees" />
+          <NavigationProperty Name="Employee1" Relationship="Self.FK__Contracts__Signe__52593CB8" FromRole="Contracts" ToRole="Employees" />
+        </EntityType>
+        <EntityType Name="EmployeeDetail">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="IdentityCard" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__EmployeeD__Emplo__48CFD27E" FromRole="EmployeeDetails" ToRole="Employees" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="EmployeeId" />
+          </Key>
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmpCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="BirthDate" Type="DateTime" Precision="0" />
+          <Property Name="JoinDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Contracts" Relationship="Self.FK__Contracts__Emplo__5165187F" FromRole="Employees" ToRole="Contracts" />
+          <NavigationProperty Name="Contracts1" Relationship="Self.FK__Contracts__Signe__52593CB8" FromRole="Employees" ToRole="Contracts" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="Self.FK__EmployeeD__Emplo__48CFD27E" FromRole="Employees" ToRole="EmployeeDetails" />
+          <NavigationProperty Name="AttendanceDailies" Relationship="Self.FK__Attendanc__Emplo__7D439ABD" FromRole="Employees" ToRole="AttendanceDaily" />
+          <NavigationProperty Name="EmpPlacements" Relationship="Self.FK__EmpPlacem__Emplo__4CA06362" FromRole="Employees" ToRole="EmpPlacements" />
+          <NavigationProperty Name="Rosters" Relationship="Self.FK__Rosters__Employe__6FE99F9F" FromRole="Employees" ToRole="Rosters" />
+          <NavigationProperty Name="Users" Relationship="Self.FK__Users__EmployeeI__5812160E" FromRole="Employees" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="EmpPlacement">
+          <Key>
+            <PropertyRef Name="PlacementId" />
+          </Key>
+          <Property Name="PlacementId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="DepartmentId" Type="Int32" Nullable="false" />
+          <Property Name="PositionId" Type="Int32" Nullable="false" />
+          <Property Name="EffectiveDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IsCurrent" Type="Boolean" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__EmpPlacem__Emplo__4CA06362" FromRole="EmpPlacements" ToRole="Employees" />
+          <NavigationProperty Name="Department" Relationship="Self.FK__EmpPlacem__Depar__4D94879B" FromRole="EmpPlacements" ToRole="Departments" />
+          <NavigationProperty Name="Position" Relationship="Self.FK__EmpPlacem__Posit__4E88ABD4" FromRole="EmpPlacements" ToRole="Positions" />
+        </EntityType>
+        <EntityType Name="Branch">
+          <Key>
+            <PropertyRef Name="BranchId" />
+          </Key>
+          <Property Name="BranchId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="BranchName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Company" Relationship="Self.FK__Branches__Compan__3A81B327" FromRole="Branches" ToRole="Companies" />
+          <NavigationProperty Name="DataScopes" Relationship="Self.FK__DataScope__Branc__693CA210" FromRole="Branches" ToRole="DataScopes" />
+          <NavigationProperty Name="Departments" Relationship="Self.FK__Departmen__Branc__3D5E1FD2" FromRole="Branches" ToRole="Departments" />
+          <NavigationProperty Name="Machines" Relationship="Self.FK__Machines__Branch__74AE54BC" FromRole="Branches" ToRole="Machines" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+          </Key>
+          <Property Name="CompanyId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TaxCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Branches" Relationship="Self.FK__Branches__Compan__3A81B327" FromRole="Companies" ToRole="Branches" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="DepartmentId" />
+          </Key>
+          <Property Name="DepartmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BranchId" Type="Int32" Nullable="false" />
+          <Property Name="ParentDeptId" Type="Int32" />
+          <Property Name="DeptName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="EmpPlacements" Relationship="Self.FK__EmpPlacem__Depar__4D94879B" FromRole="Departments" ToRole="EmpPlacements" />
+          <NavigationProperty Name="Branch" Relationship="Self.FK__Departmen__Branc__3D5E1FD2" FromRole="Departments" ToRole="Branches" />
+          <NavigationProperty Name="Departments1" Relationship="Self.FK__Departmen__Paren__3E52440B" FromRole="Departments" ToRole="Departments1" />
+          <NavigationProperty Name="Department1" Relationship="Self.FK__Departmen__Paren__3E52440B" FromRole="Departments1" ToRole="Departments" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="PositionId" />
+          </Key>
+          <Property Name="PositionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PositionName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Level" Type="Int32" />
+          <NavigationProperty Name="EmpPlacements" Relationship="Self.FK__EmpPlacem__Posit__4E88ABD4" FromRole="Positions" ToRole="EmpPlacements" />
+        </EntityType>
+        <EntityType Name="DataScope">
+          <Key>
+            <PropertyRef Name="ScopeId" />
+          </Key>
+          <Property Name="ScopeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleId" Type="Int32" Nullable="false" />
+          <Property Name="BranchId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Branch" Relationship="Self.FK__DataScope__Branc__693CA210" FromRole="DataScopes" ToRole="Branches" />
+          <NavigationProperty Name="Role" Relationship="Self.FK__DataScope__RoleI__68487DD7" FromRole="DataScopes" ToRole="Roles" />
+        </EntityType>
+        <EntityType Name="Permission">
+          <Key>
+            <PropertyRef Name="PermissionId" />
+          </Key>
+          <Property Name="PermissionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Module" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Roles" Relationship="Self.RolePermissions" FromRole="Permissions" ToRole="Roles" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RoleName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DataScopes" Relationship="Self.FK__DataScope__RoleI__68487DD7" FromRole="Roles" ToRole="DataScopes" />
+          <NavigationProperty Name="Permissions" Relationship="Self.RolePermissions" FromRole="Roles" ToRole="Permissions" />
+          <NavigationProperty Name="Users" Relationship="Self.UserRoles" FromRole="Roles" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__Users__EmployeeI__5812160E" FromRole="Users" ToRole="Employees" />
+          <NavigationProperty Name="Roles" Relationship="Self.UserRoles" FromRole="Users" ToRole="Roles" />
+        </EntityType>
+        <EntityType Name="AttendanceDaily">
+          <Key>
+            <PropertyRef Name="AttId" />
+          </Key>
+          <Property Name="AttId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TimeIn" Type="DateTime" Precision="3" />
+          <Property Name="TimeOut" Type="DateTime" Precision="3" />
+          <Property Name="WorkHours" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="LateMins" Type="Int32" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__Attendanc__Emplo__7D439ABD" FromRole="AttendanceDaily" ToRole="Employees" />
+        </EntityType>
+        <EntityType Name="Machine">
+          <Key>
+            <PropertyRef Name="MachineId" />
+          </Key>
+          <Property Name="MachineId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IPAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BranchId" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Branch" Relationship="Self.FK__Machines__Branch__74AE54BC" FromRole="Machines" ToRole="Branches" />
+          <NavigationProperty Name="TimeClockRaws" Relationship="Self.FK__TimeClock__Machi__787EE5A0" FromRole="Machines" ToRole="TimeClockRaw" />
+        </EntityType>
+        <EntityType Name="Roster">
+          <Key>
+            <PropertyRef Name="RosterId" />
+          </Key>
+          <Property Name="RosterId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ShiftId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__Rosters__Employe__6FE99F9F" FromRole="Rosters" ToRole="Employees" />
+          <NavigationProperty Name="Shift" Relationship="Self.FK__Rosters__ShiftId__70DDC3D8" FromRole="Rosters" ToRole="Shifts" />
+        </EntityType>
+        <EntityType Name="Shift">
+          <Key>
+            <PropertyRef Name="ShiftId" />
+          </Key>
+          <Property Name="ShiftId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StartTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="EndTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="BreakTimeMins" Type="Int32" />
+          <NavigationProperty Name="Rosters" Relationship="Self.FK__Rosters__ShiftId__70DDC3D8" FromRole="Shifts" ToRole="Rosters" />
+        </EntityType>
+        <EntityType Name="TimeClockRaw">
+          <Key>
+            <PropertyRef Name="LogId" />
+          </Key>
+          <Property Name="LogId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MachineId" Type="Int32" Nullable="false" />
+          <Property Name="EmpCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PunchTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Type" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedAt" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Machine" Relationship="Self.FK__TimeClock__Machi__787EE5A0" FromRole="TimeClockRaw" ToRole="Machines" />
+        </EntityType>
+        <Association Name="FK__Contracts__Emplo__5165187F">
+          <End Role="Employees" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Contracts" Type="Self.Contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="Contracts">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Contracts__Signe__52593CB8">
+          <End Role="Employees" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Contracts" Type="Self.Contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="Contracts">
+              <PropertyRef Name="SignerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EmployeeD__Emplo__48CFD27E">
+          <End Role="Employees" Type="Self.Employee" Multiplicity="1" />
+          <End Role="EmployeeDetails" Type="Self.EmployeeDetail" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="EmployeeDetails">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Attendanc__Emplo__7D439ABD">
+          <End Role="Employees" Type="Self.Employee" Multiplicity="1" />
+          <End Role="AttendanceDaily" Type="Self.AttendanceDaily" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="AttendanceDaily">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EmpPlacem__Emplo__4CA06362">
+          <End Role="Employees" Type="Self.Employee" Multiplicity="1" />
+          <End Role="EmpPlacements" Type="Self.EmpPlacement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="EmpPlacements">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rosters__Employe__6FE99F9F">
+          <End Role="Employees" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Rosters" Type="Self.Roster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="Rosters">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Users__EmployeeI__5812160E">
+          <End Role="Employees" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="EmployeeId" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EmpPlacem__Depar__4D94879B">
+          <End Role="Departments" Type="Self.Department" Multiplicity="1" />
+          <End Role="EmpPlacements" Type="Self.EmpPlacement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="DepartmentId" />
+            </Principal>
+            <Dependent Role="EmpPlacements">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EmpPlacem__Posit__4E88ABD4">
+          <End Role="Positions" Type="Self.Position" Multiplicity="1" />
+          <End Role="EmpPlacements" Type="Self.EmpPlacement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Positions">
+              <PropertyRef Name="PositionId" />
+            </Principal>
+            <Dependent Role="EmpPlacements">
+              <PropertyRef Name="PositionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Branches__Compan__3A81B327">
+          <End Role="Companies" Type="Self.Company" Multiplicity="1" />
+          <End Role="Branches" Type="Self.Branch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companies">
+              <PropertyRef Name="CompanyId" />
+            </Principal>
+            <Dependent Role="Branches">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DataScope__Branc__693CA210">
+          <End Role="Branches" Type="Self.Branch" Multiplicity="1" />
+          <End Role="DataScopes" Type="Self.DataScope" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="BranchId" />
+            </Principal>
+            <Dependent Role="DataScopes">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Departmen__Branc__3D5E1FD2">
+          <End Role="Branches" Type="Self.Branch" Multiplicity="1" />
+          <End Role="Departments" Type="Self.Department" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="BranchId" />
+            </Principal>
+            <Dependent Role="Departments">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Machines__Branch__74AE54BC">
+          <End Role="Branches" Type="Self.Branch" Multiplicity="1" />
+          <End Role="Machines" Type="Self.Machine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branches">
+              <PropertyRef Name="BranchId" />
+            </Principal>
+            <Dependent Role="Machines">
+              <PropertyRef Name="BranchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Departmen__Paren__3E52440B">
+          <End Role="Departments" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="Departments1" Type="Self.Department" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="DepartmentId" />
+            </Principal>
+            <Dependent Role="Departments1">
+              <PropertyRef Name="ParentDeptId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DataScope__RoleI__68487DD7">
+          <End Role="Roles" Type="Self.Role" Multiplicity="1" />
+          <End Role="DataScopes" Type="Self.DataScope" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="DataScopes">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TimeClock__Machi__787EE5A0">
+          <End Role="Machines" Type="Self.Machine" Multiplicity="1" />
+          <End Role="TimeClockRaw" Type="Self.TimeClockRaw" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Machines">
+              <PropertyRef Name="MachineId" />
+            </Principal>
+            <Dependent Role="TimeClockRaw">
+              <PropertyRef Name="MachineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Rosters__ShiftId__70DDC3D8">
+          <End Role="Shifts" Type="Self.Shift" Multiplicity="1" />
+          <End Role="Rosters" Type="Self.Roster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Shifts">
+              <PropertyRef Name="ShiftId" />
+            </Principal>
+            <Dependent Role="Rosters">
+              <PropertyRef Name="ShiftId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RolePermissions">
+          <End Role="Permissions" Type="Self.Permission" Multiplicity="*" />
+          <End Role="Roles" Type="Self.Role" Multiplicity="*" />
+        </Association>
+        <Association Name="UserRoles">
+          <End Role="Roles" Type="Self.Role" Multiplicity="*" />
+          <End Role="Users" Type="Self.User" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="Quản_lý_nhân_sựEntities3" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Contracts" EntityType="Self.Contract" />
+          <EntitySet Name="EmployeeDetails" EntityType="Self.EmployeeDetail" />
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="EmpPlacements" EntityType="Self.EmpPlacement" />
+          <EntitySet Name="Branches" EntityType="Self.Branch" />
+          <EntitySet Name="Companies" EntityType="Self.Company" />
+          <EntitySet Name="Departments" EntityType="Self.Department" />
+          <EntitySet Name="Positions" EntityType="Self.Position" />
+          <EntitySet Name="DataScopes" EntityType="Self.DataScope" />
+          <EntitySet Name="Permissions" EntityType="Self.Permission" />
+          <EntitySet Name="Roles" EntityType="Self.Role" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="AttendanceDailies" EntityType="Self.AttendanceDaily" />
+          <EntitySet Name="Machines" EntityType="Self.Machine" />
+          <EntitySet Name="Rosters" EntityType="Self.Roster" />
+          <EntitySet Name="Shifts" EntityType="Self.Shift" />
+          <EntitySet Name="TimeClockRaws" EntityType="Self.TimeClockRaw" />
+          <AssociationSet Name="FK__Contracts__Emplo__5165187F" Association="Self.FK__Contracts__Emplo__5165187F">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Contracts" EntitySet="Contracts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Contracts__Signe__52593CB8" Association="Self.FK__Contracts__Signe__52593CB8">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Contracts" EntitySet="Contracts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EmployeeD__Emplo__48CFD27E" Association="Self.FK__EmployeeD__Emplo__48CFD27E">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Attendanc__Emplo__7D439ABD" Association="Self.FK__Attendanc__Emplo__7D439ABD">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="AttendanceDaily" EntitySet="AttendanceDailies" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EmpPlacem__Emplo__4CA06362" Association="Self.FK__EmpPlacem__Emplo__4CA06362">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="EmpPlacements" EntitySet="EmpPlacements" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rosters__Employe__6FE99F9F" Association="Self.FK__Rosters__Employe__6FE99F9F">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Rosters" EntitySet="Rosters" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Users__EmployeeI__5812160E" Association="Self.FK__Users__EmployeeI__5812160E">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EmpPlacem__Depar__4D94879B" Association="Self.FK__EmpPlacem__Depar__4D94879B">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="EmpPlacements" EntitySet="EmpPlacements" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EmpPlacem__Posit__4E88ABD4" Association="Self.FK__EmpPlacem__Posit__4E88ABD4">
+            <End Role="Positions" EntitySet="Positions" />
+            <End Role="EmpPlacements" EntitySet="EmpPlacements" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Branches__Compan__3A81B327" Association="Self.FK__Branches__Compan__3A81B327">
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="Branches" EntitySet="Branches" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DataScope__Branc__693CA210" Association="Self.FK__DataScope__Branc__693CA210">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="DataScopes" EntitySet="DataScopes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Departmen__Branc__3D5E1FD2" Association="Self.FK__Departmen__Branc__3D5E1FD2">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Departments" EntitySet="Departments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Machines__Branch__74AE54BC" Association="Self.FK__Machines__Branch__74AE54BC">
+            <End Role="Branches" EntitySet="Branches" />
+            <End Role="Machines" EntitySet="Machines" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Departmen__Paren__3E52440B" Association="Self.FK__Departmen__Paren__3E52440B">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="Departments1" EntitySet="Departments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DataScope__RoleI__68487DD7" Association="Self.FK__DataScope__RoleI__68487DD7">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="DataScopes" EntitySet="DataScopes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TimeClock__Machi__787EE5A0" Association="Self.FK__TimeClock__Machi__787EE5A0">
+            <End Role="Machines" EntitySet="Machines" />
+            <End Role="TimeClockRaw" EntitySet="TimeClockRaws" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Rosters__ShiftId__70DDC3D8" Association="Self.FK__Rosters__ShiftId__70DDC3D8">
+            <End Role="Shifts" EntitySet="Shifts" />
+            <End Role="Rosters" EntitySet="Rosters" />
+          </AssociationSet>
+          <AssociationSet Name="RolePermissions" Association="Self.RolePermissions">
+            <End Role="Permissions" EntitySet="Permissions" />
+            <End Role="Roles" EntitySet="Roles" />
+          </AssociationSet>
+          <AssociationSet Name="UserRoles" Association="Self.UserRoles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Quản_lý_nhân_sựEntities3">
+          <EntitySetMapping Name="Contracts">
+            <EntityTypeMapping TypeName="Model.Contract">
+              <MappingFragment StoreEntitySet="Contracts">
+                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="ContractType" ColumnName="ContractType" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="SignerId" ColumnName="SignerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeDetails">
+            <EntityTypeMapping TypeName="Model.EmployeeDetail">
+              <MappingFragment StoreEntitySet="EmployeeDetails">
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="IdentityCard" ColumnName="IdentityCard" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="Model.Employee">
+              <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="EmpCode" ColumnName="EmpCode" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="JoinDate" ColumnName="JoinDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmpPlacements">
+            <EntityTypeMapping TypeName="Model.EmpPlacement">
+              <MappingFragment StoreEntitySet="EmpPlacements">
+                <ScalarProperty Name="PlacementId" ColumnName="PlacementId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+                <ScalarProperty Name="EffectiveDate" ColumnName="EffectiveDate" />
+                <ScalarProperty Name="IsCurrent" ColumnName="IsCurrent" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Branches">
+            <EntityTypeMapping TypeName="Model.Branch">
+              <MappingFragment StoreEntitySet="Branches">
+                <ScalarProperty Name="BranchId" ColumnName="BranchId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="BranchName" ColumnName="BranchName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Companies">
+            <EntityTypeMapping TypeName="Model.Company">
+              <MappingFragment StoreEntitySet="Companies">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="TaxCode" ColumnName="TaxCode" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="Model.Department">
+              <MappingFragment StoreEntitySet="Departments">
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="BranchId" ColumnName="BranchId" />
+                <ScalarProperty Name="ParentDeptId" ColumnName="ParentDeptId" />
+                <ScalarProperty Name="DeptName" ColumnName="DeptName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Positions">
+            <EntityTypeMapping TypeName="Model.Position">
+              <MappingFragment StoreEntitySet="Positions">
+                <ScalarProperty Name="PositionId" ColumnName="PositionId" />
+                <ScalarProperty Name="PositionName" ColumnName="PositionName" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DataScopes">
+            <EntityTypeMapping TypeName="Model.DataScope">
+              <MappingFragment StoreEntitySet="DataScopes">
+                <ScalarProperty Name="ScopeId" ColumnName="ScopeId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="BranchId" ColumnName="BranchId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Permissions">
+            <EntityTypeMapping TypeName="Model.Permission">
+              <MappingFragment StoreEntitySet="Permissions">
+                <ScalarProperty Name="PermissionId" ColumnName="PermissionId" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Module" ColumnName="Module" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="Model.Role">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="RoleCode" ColumnName="RoleCode" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="Model.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AttendanceDailies">
+            <EntityTypeMapping TypeName="Model.AttendanceDaily">
+              <MappingFragment StoreEntitySet="AttendanceDaily">
+                <ScalarProperty Name="AttId" ColumnName="AttId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="TimeIn" ColumnName="TimeIn" />
+                <ScalarProperty Name="TimeOut" ColumnName="TimeOut" />
+                <ScalarProperty Name="WorkHours" ColumnName="WorkHours" />
+                <ScalarProperty Name="LateMins" ColumnName="LateMins" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Machines">
+            <EntityTypeMapping TypeName="Model.Machine">
+              <MappingFragment StoreEntitySet="Machines">
+                <ScalarProperty Name="MachineId" ColumnName="MachineId" />
+                <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+                <ScalarProperty Name="BranchId" ColumnName="BranchId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rosters">
+            <EntityTypeMapping TypeName="Model.Roster">
+              <MappingFragment StoreEntitySet="Rosters">
+                <ScalarProperty Name="RosterId" ColumnName="RosterId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ShiftId" ColumnName="ShiftId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Shifts">
+            <EntityTypeMapping TypeName="Model.Shift">
+              <MappingFragment StoreEntitySet="Shifts">
+                <ScalarProperty Name="ShiftId" ColumnName="ShiftId" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="BreakTimeMins" ColumnName="BreakTimeMins" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TimeClockRaws">
+            <EntityTypeMapping TypeName="Model.TimeClockRaw">
+              <MappingFragment StoreEntitySet="TimeClockRaw">
+                <ScalarProperty Name="LogId" ColumnName="LogId" />
+                <ScalarProperty Name="MachineId" ColumnName="MachineId" />
+                <ScalarProperty Name="EmpCode" ColumnName="EmpCode" />
+                <ScalarProperty Name="PunchTime" ColumnName="PunchTime" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="RolePermissions" TypeName="Model.RolePermissions" StoreEntitySet="RolePermissions">
+            <EndProperty Name="Permissions">
+              <ScalarProperty Name="PermissionId" ColumnName="PermissionId" />
+            </EndProperty>
+            <EndProperty Name="Roles">
+              <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="UserRoles" TypeName="Model.UserRoles" StoreEntitySet="UserRoles">
+            <EndProperty Name="Roles">
+              <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+            </EndProperty>
+            <EndProperty Name="Users">
+              <ScalarProperty Name="UserId" ColumnName="UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
