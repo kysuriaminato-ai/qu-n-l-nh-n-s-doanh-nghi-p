@@ -120,6 +120,7 @@
     <Compile Include="Models\AttendanceDaily.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AuthViewModel.cs" />
     <Compile Include="Models\Branch.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
