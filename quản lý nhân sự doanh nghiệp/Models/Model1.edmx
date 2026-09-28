@@ -4,7 +4,35 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ChucNang">
+          <Key>
+            <PropertyRef Name="MaChucNang" />
+          </Key>
+          <Property Name="MaChucNang" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TenChucNang" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PhanQuyen">
+          <Key>
+            <PropertyRef Name="MaVaiTro" />
+            <PropertyRef Name="MaChucNang" />
+          </Key>
+          <Property Name="MaVaiTro" Type="int" Nullable="false" />
+          <Property Name="MaChucNang" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CoXem" Type="bit" Nullable="false" />
+          <Property Name="CoThem" Type="bit" Nullable="false" />
+          <Property Name="CoSua" Type="bit" Nullable="false" />
+          <Property Name="CoXoa" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VaiTro">
+          <Key>
+            <PropertyRef Name="MaVaiTro" />
+          </Key>
+          <Property Name="MaVaiTro" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TenVaiTro" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="MoTa" Type="nvarchar" MaxLength="255" />
+          <Property Name="LaHeThong" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Contracts">
           <Key>
             <PropertyRef Name="ContractId" />
@@ -347,6 +375,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__PhanQuyen__MaChu__09A971A2">
+          <End Role="ChucNang" Type="Self.ChucNang" Multiplicity="1" />
+          <End Role="PhanQuyen" Type="Self.PhanQuyen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ChucNang">
+              <PropertyRef Name="MaChucNang" />
+            </Principal>
+            <Dependent Role="PhanQuyen">
+              <PropertyRef Name="MaChucNang" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PhanQuyen__MaVai__08B54D69">
+          <End Role="VaiTro" Type="Self.VaiTro" Multiplicity="1" />
+          <End Role="PhanQuyen" Type="Self.PhanQuyen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VaiTro">
+              <PropertyRef Name="MaVaiTro" />
+            </Principal>
+            <Dependent Role="PhanQuyen">
+              <PropertyRef Name="MaVaiTro" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__RolePermi__Permi__656C112C">
           <End Role="Permissions" Type="Self.Permissions" Multiplicity="1" />
           <End Role="RolePermissions" Type="Self.RolePermissions" Multiplicity="*" />
@@ -444,6 +496,9 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="ChucNang" EntityType="Self.ChucNang" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PhanQuyen" EntityType="Self.PhanQuyen" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VaiTro" EntityType="Self.VaiTro" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Contracts" EntityType="Self.Contracts" Schema="HR" store:Type="Tables" />
           <EntitySet Name="EmployeeDetails" EntityType="Self.EmployeeDetails" Schema="HR" store:Type="Tables" />
           <EntitySet Name="Employees" EntityType="Self.Employees" Schema="HR" store:Type="Tables" />
@@ -515,6 +570,14 @@
             <End Role="Branches" EntitySet="Branches" />
             <End Role="Machines" EntitySet="Machines" />
           </AssociationSet>
+          <AssociationSet Name="FK__PhanQuyen__MaChu__09A971A2" Association="Self.FK__PhanQuyen__MaChu__09A971A2">
+            <End Role="ChucNang" EntitySet="ChucNang" />
+            <End Role="PhanQuyen" EntitySet="PhanQuyen" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PhanQuyen__MaVai__08B54D69" Association="Self.FK__PhanQuyen__MaVai__08B54D69">
+            <End Role="VaiTro" EntitySet="VaiTro" />
+            <End Role="PhanQuyen" EntitySet="PhanQuyen" />
+          </AssociationSet>
           <AssociationSet Name="FK__RolePermi__Permi__656C112C" Association="Self.FK__RolePermi__Permi__656C112C">
             <End Role="Permissions" EntitySet="Permissions" />
             <End Role="RolePermissions" EntitySet="RolePermissions" />
@@ -548,8 +611,7 @@
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1067,7 +1129,74 @@
             <End Role="Roles" EntitySet="Roles" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <EntitySet Name="ChucNangs" EntityType="Model.ChucNang" />
+          <EntitySet Name="PhanQuyens" EntityType="Model.PhanQuyen" />
+          <EntitySet Name="VaiTroes" EntityType="Model.VaiTro" />
+          <AssociationSet Name="FK__PhanQuyen__MaChu__09A971A2" Association="Model.FK__PhanQuyen__MaChu__09A971A2">
+            <End Role="ChucNang" EntitySet="ChucNangs" />
+            <End Role="PhanQuyen" EntitySet="PhanQuyens" />
+          </AssociationSet>
+          <AssociationSet Name="FK__PhanQuyen__MaVai__08B54D69" Association="Model.FK__PhanQuyen__MaVai__08B54D69">
+            <End Role="VaiTro" EntitySet="VaiTroes" />
+            <End Role="PhanQuyen" EntitySet="PhanQuyens" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="ChucNang">
+          <Key>
+            <PropertyRef Name="MaChucNang" />
+          </Key>
+          <Property Name="MaChucNang" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TenChucNang" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="PhanQuyens" Relationship="Model.FK__PhanQuyen__MaChu__09A971A2" FromRole="ChucNang" ToRole="PhanQuyen" />
+        </EntityType>
+        <EntityType Name="PhanQuyen">
+          <Key>
+            <PropertyRef Name="MaVaiTro" />
+            <PropertyRef Name="MaChucNang" />
+          </Key>
+          <Property Name="MaVaiTro" Type="Int32" Nullable="false" />
+          <Property Name="MaChucNang" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CoXem" Type="Boolean" Nullable="false" />
+          <Property Name="CoThem" Type="Boolean" Nullable="false" />
+          <Property Name="CoSua" Type="Boolean" Nullable="false" />
+          <Property Name="CoXoa" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ChucNang" Relationship="Model.FK__PhanQuyen__MaChu__09A971A2" FromRole="PhanQuyen" ToRole="ChucNang" />
+          <NavigationProperty Name="VaiTro" Relationship="Model.FK__PhanQuyen__MaVai__08B54D69" FromRole="PhanQuyen" ToRole="VaiTro" />
+        </EntityType>
+        <EntityType Name="VaiTro">
+          <Key>
+            <PropertyRef Name="MaVaiTro" />
+          </Key>
+          <Property Name="MaVaiTro" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TenVaiTro" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MoTa" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="LaHeThong" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="PhanQuyens" Relationship="Model.FK__PhanQuyen__MaVai__08B54D69" FromRole="VaiTro" ToRole="PhanQuyen" />
+        </EntityType>
+        <Association Name="FK__PhanQuyen__MaChu__09A971A2">
+          <End Type="Model.ChucNang" Role="ChucNang" Multiplicity="1" />
+          <End Type="Model.PhanQuyen" Role="PhanQuyen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ChucNang">
+              <PropertyRef Name="MaChucNang" />
+            </Principal>
+            <Dependent Role="PhanQuyen">
+              <PropertyRef Name="MaChucNang" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__PhanQuyen__MaVai__08B54D69">
+          <End Type="Model.VaiTro" Role="VaiTro" Multiplicity="1" />
+          <End Type="Model.PhanQuyen" Role="PhanQuyen" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VaiTro">
+              <PropertyRef Name="MaVaiTro" />
+            </Principal>
+            <Dependent Role="PhanQuyen">
+              <PropertyRef Name="MaVaiTro" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1277,6 +1406,36 @@
               <ScalarProperty Name="UserId" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="ChucNangs">
+            <EntityTypeMapping TypeName="Model.ChucNang">
+              <MappingFragment StoreEntitySet="ChucNang">
+                <ScalarProperty Name="TenChucNang" ColumnName="TenChucNang" />
+                <ScalarProperty Name="MaChucNang" ColumnName="MaChucNang" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PhanQuyens">
+            <EntityTypeMapping TypeName="Model.PhanQuyen">
+              <MappingFragment StoreEntitySet="PhanQuyen">
+                <ScalarProperty Name="CoXoa" ColumnName="CoXoa" />
+                <ScalarProperty Name="CoSua" ColumnName="CoSua" />
+                <ScalarProperty Name="CoThem" ColumnName="CoThem" />
+                <ScalarProperty Name="CoXem" ColumnName="CoXem" />
+                <ScalarProperty Name="MaChucNang" ColumnName="MaChucNang" />
+                <ScalarProperty Name="MaVaiTro" ColumnName="MaVaiTro" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VaiTroes">
+            <EntityTypeMapping TypeName="Model.VaiTro">
+              <MappingFragment StoreEntitySet="VaiTro">
+                <ScalarProperty Name="LaHeThong" ColumnName="LaHeThong" />
+                <ScalarProperty Name="MoTa" ColumnName="MoTa" />
+                <ScalarProperty Name="TenVaiTro" ColumnName="TenVaiTro" />
+                <ScalarProperty Name="MaVaiTro" ColumnName="MaVaiTro" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

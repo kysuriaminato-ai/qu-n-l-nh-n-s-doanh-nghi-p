@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="b8c4d294f4544235a567442a3d678ea5" Name="Diagram1" ZoomLevel="101">
+      <Diagram DiagramId="b8c4d294f4544235a567442a3d678ea5" Name="Diagram1" ZoomLevel="82">
         <EntityTypeShape EntityType="Model.Contract" Width="1.5" PointX="3" PointY="7.875" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.EmployeeDetail" Width="1.5" PointX="3" PointY="11.25" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.Employee" Width="1.5" PointX="0.75" PointY="10.5" IsExpanded="true" />
@@ -41,6 +41,11 @@
         <AssociationConnector Association="Model.FK__Rosters__ShiftId__70DDC3D8" ManuallyRouted="false" />
         <AssociationConnector Association="Model.RolePermissions" ManuallyRouted="false" />
         <AssociationConnector Association="Model.UserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Model.ChucNang" Width="1.5" PointX="6.375" PointY="1.375" />
+        <EntityTypeShape EntityType="Model.PhanQuyen" Width="1.5" PointX="8.625" PointY="1" />
+        <EntityTypeShape EntityType="Model.VaiTro" Width="1.5" PointX="6.375" PointY="4.25" />
+        <AssociationConnector Association="Model.FK__PhanQuyen__MaChu__09A971A2" />
+        <AssociationConnector Association="Model.FK__PhanQuyen__MaVai__08B54D69" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
