@@ -1,0 +1,25 @@
+﻿@model quản_lý_nhân_sự_doanh_nghiệp.Models.GanVaiTroViewModel
+@{ ViewBag.Title = "Sửa vai trò"; }
+
+<h2>Vai trò của @Model.NguoiDung.Username</h2>
+<p class="phu">Một người có thể giữ nhiều vai trò. Quyền được cộng dồn từ tất cả vai trò.</p>
+
+@using (Html.BeginForm("GanVaiTro", "PhanQuyen", new { id = Model.NguoiDung.UserId }, FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="hop" style="max-width:560px">
+        @foreach (var r in Model.VaiTros)
+        {
+            <p style="margin:6px 0">
+                <label>
+                    <input type="checkbox" name="vaiTro" value="@r.RoleId" @(Model.DangCo.Contains(r.RoleId) ? "checked" : "") />
+                    <b>@r.RoleName</b> <span class="phu">@r.Description</span>
+                </label>
+            </p>
+        }
+    </div>
+    <p style="margin-top:16px">
+        <button type="submit" class="btn btn-chinh">Lưu vai trò</button>
+        <a class="btn" href="@Url.Action("NguoiDung")">Hủy</a>
+    </p>
+}

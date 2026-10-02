@@ -1,0 +1,82 @@
+﻿@model quản_lý_nhân_sự_doanh_nghiệp.Models.NhanSuForm
+
+@Html.ValidationSummary(true)
+
+<h3>Thông tin cơ bản</h3>
+<div class="luoi-form">
+    <div class="truong">
+        @Html.LabelFor(m => m.EmpCode, "Mã nhân viên")
+        @Html.TextBoxFor(m => m.EmpCode)
+        @Html.ValidationMessageFor(m => m.EmpCode)
+    </div>
+    <div class="truong">
+        @Html.LabelFor(m => m.LastName, "Họ (và tên đệm)")
+        @Html.TextBoxFor(m => m.LastName)
+        @Html.ValidationMessageFor(m => m.LastName)
+    </div>
+    <div class="truong">
+        @Html.LabelFor(m => m.FirstName, "Tên")
+        @Html.TextBoxFor(m => m.FirstName)
+        @Html.ValidationMessageFor(m => m.FirstName)
+    </div>
+    <div class="truong">
+        @Html.LabelFor(m => m.Gender, "Giới tính")
+        @Html.TextBoxFor(m => m.Gender, new { list = "ds-gioitinh", autocomplete = "off" })
+        <datalist id="ds-gioitinh">@foreach (var g in Model.GioiTinhs) { <option value="@g"></option> }</datalist>
+        @Html.ValidationMessageFor(m => m.Gender)
+    </div>
+    <div class="truong">
+        @Html.LabelFor(m => m.BirthDate, "Ngày sinh")
+        @Html.TextBoxFor(m => m.BirthDate, "{0:yyyy-MM-dd}", new { type = "date" })
+        @Html.ValidationMessageFor(m => m.BirthDate)
+    </div>
+    <div class="truong">
+        @Html.LabelFor(m => m.JoinDate, "Ngày vào làm")
+        @Html.TextBoxFor(m => m.JoinDate, "{0:yyyy-MM-dd}", new { type = "date" })
+        @Html.ValidationMessageFor(m => m.JoinDate)
+    </div>
+    <div class="truong">
+        @Html.LabelFor(m => m.Status, "Trạng thái")
+        @Html.TextBoxFor(m => m.Status, new { list = "ds-trangthai", autocomplete = "off" })
+        <datalist id="ds-trangthai">@foreach (var t in Model.TrangThais) { <option value="@t"></option> }</datalist>
+        @Html.ValidationMessageFor(m => m.Status)
+    </div>
+</div>
+
+<h3 style="margin-top:22px">Vị trí công tác</h3>
+<div class="luoi-form">
+    <div class="truong">
+        @Html.LabelFor(m => m.DepartmentId, "Phòng ban")
+        @Html.DropDownListFor(m => m.DepartmentId, Model.PhongBans, "Chọn phòng ban")
+        @Html.ValidationMessageFor(m => m.DepartmentId)
+    </div>
+    <div class="truong">
+        @Html.LabelFor(m => m.PositionId, "Chức vụ")
+        @Html.DropDownListFor(m => m.PositionId, Model.ChucVus, "Chọn chức vụ")
+        @Html.ValidationMessageFor(m => m.PositionId)
+    </div>
+</div>
+
+<h3 style="margin-top:22px">Liên hệ và giấy tờ</h3>
+<div class="luoi-form">
+    <div class="truong">
+        @Html.LabelFor(m => m.IdentityCard, "Số CCCD/CMND")
+        @Html.TextBoxFor(m => m.IdentityCard)
+        @Html.ValidationMessageFor(m => m.IdentityCard)
+    </div>
+    <div class="truong">
+        @Html.LabelFor(m => m.Phone, "Điện thoại")
+        @Html.TextBoxFor(m => m.Phone)
+        @Html.ValidationMessageFor(m => m.Phone)
+    </div>
+    <div class="truong">
+        @Html.LabelFor(m => m.Email, "Email")
+        @Html.TextBoxFor(m => m.Email)
+        @Html.ValidationMessageFor(m => m.Email)
+    </div>
+    <div class="truong">
+        @Html.LabelFor(m => m.Address, "Địa chỉ")
+        @Html.TextBoxFor(m => m.Address)
+        @Html.ValidationMessageFor(m => m.Address)
+    </div>
+</div>

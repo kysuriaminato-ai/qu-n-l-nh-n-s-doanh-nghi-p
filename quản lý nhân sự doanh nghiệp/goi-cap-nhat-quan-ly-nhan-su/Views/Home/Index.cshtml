@@ -44,23 +44,23 @@
             <table class="bang">
                 <thead><tr><th>Nhân viên</th><th>Loại</th><th>Hết hạn</th></tr></thead>
                 <tbody>
-                    @foreach (var h in Model.DanhSachSapHet)
-                    {
-                        <tr>
-                            <td>
-                                @if (PhanQuyenHelper.CoQuyen("Employee.View"))
-                                {
-                                    @Html.ActionLink(h.HoTen ?? ("Nhân viên #" + h.EmployeeId), "Details", "NhanSu", new { id = h.EmployeeId }, null)
-                                }
-                                else
-                                {
-                                    @h.HoTen
-                                }
-                            </td>
-                            <td>@h.Loai</td>
-                            <td>@h.KetThuc.Value.ToString("dd/MM/yyyy") <span class="the-nho vang">còn @h.SoNgayCon ngày</span></td>
-                        </tr>
-                    }
+                @foreach (var h in Model.DanhSachSapHet)
+                {
+                    <tr>
+                        <td>
+                            @if (PhanQuyenHelper.CoQuyen("Employee.View"))
+                            {
+                                @Html.ActionLink(h.HoTen ?? ("Nhân viên #" + h.EmployeeId), "Details", "NhanSu", new { id = h.EmployeeId }, null)
+                            }
+                            else
+                            {
+                                @h.HoTen
+                            }
+                        </td>
+                        <td>@h.Loai</td>
+                        <td>@h.KetThuc.Value.ToString("dd/MM/yyyy") <span class="the-nho vang">còn @h.SoNgayCon ngày</span></td>
+                    </tr>
+                }
                 </tbody>
             </table>
             if (PhanQuyenHelper.CoQuyen("Contract.View"))

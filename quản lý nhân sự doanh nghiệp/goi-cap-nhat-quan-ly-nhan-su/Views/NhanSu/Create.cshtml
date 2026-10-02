@@ -1,0 +1,15 @@
+﻿@model quản_lý_nhân_sự_doanh_nghiệp.Models.NhanSuForm
+@{ ViewBag.Title = "Thêm nhân viên"; }
+
+<h2>Thêm nhân viên</h2>
+<p class="phu">Nhân viên mới được xếp vào phòng ban và chức vụ bạn chọn, tính từ ngày vào làm.</p>
+
+@using (Html.BeginForm("Create", "NhanSu", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.Partial("_Form", Model)
+    <p style="margin-top:22px">
+        <button type="submit" class="btn btn-chinh">Thêm nhân viên</button>
+        <a class="btn" href="@Url.Action("Index")">Hủy</a>
+    </p>
+}

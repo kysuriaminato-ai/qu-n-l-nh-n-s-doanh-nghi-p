@@ -1,0 +1,119 @@
+﻿@using quản_lý_nhân_sự_doanh_nghiệp.Models
+@{
+    bool dangNhap = PhanQuyenHelper.DaDangNhap();
+    string ten = Session["TenDangNhap"] as string;
+    string ctl = (string)ViewContext.RouteData.Values["controller"];
+    Func<string, string> lop = c => string.Equals(ctl, c, StringComparison.OrdinalIgnoreCase) ? "on" : "";
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title - Quản lý nhân sự</title>
+    <style>
+        :root { --nen:#f4f5f2; --chu:#1b2320; --chu2:#5a665f; --vien:#dadfd8; --chinh:#1f6f54; --chinh-nhat:#e2f0e9; --do:#b42318; --do-nhat:#fbe4e1; --vang:#8a5a00; --vang-nhat:#fbefd5; }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: 'Segoe UI', system-ui, Arial, sans-serif; font-size: 15px; line-height: 1.5; background: var(--nen); color: var(--chu); }
+        a { color: var(--chinh); }
+        h2 { margin: 0 0 4px; font-size: 24px; }
+        h3 { margin: 0 0 8px; font-size: 17px; }
+        .khung { display: flex; min-height: 100vh; }
+        .menu { width: 232px; flex: none; background: #17352b; color: #fff; padding: 22px 14px; display: flex; flex-direction: column; }
+        .menu h1 { font-size: 17px; margin: 0 0 22px 10px; font-weight: 600; }
+        .menu a { display: block; color: #cfe3d9; text-decoration: none; padding: 9px 12px; border-radius: 6px; margin-bottom: 3px; }
+        .menu a:hover { background: rgba(255,255,255,.1); color: #fff; }
+        .menu a.on { background: #fff; color: #17352b; font-weight: 600; }
+        .menu .cuoi { margin-top: auto; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.15); font-size: 13px; color: #cfe3d9; }
+        .menu .cuoi b { display: block; color: #fff; font-size: 15px; margin-bottom: 6px; padding-left: 12px; }
+        .noidung { flex: 1; padding: 26px 30px 48px; min-width: 0; }
+        .phu { color: var(--chu2); margin: 0 0 16px; }
+        .alert { padding: 10px 14px; border-radius: 8px; margin: 0 0 16px; }
+        .alert-ok { background: var(--chinh-nhat); color: var(--chinh); }
+        .alert-loi { background: var(--do-nhat); color: var(--do); }
+        .btn { display: inline-block; padding: 8px 15px; border-radius: 7px; border: 1px solid var(--vien); background: #fff; color: var(--chu); text-decoration: none; cursor: pointer; font: inherit; font-size: 14px; }
+        .btn:hover { background: #eef1ec; }
+        .btn-chinh { background: var(--chinh); border-color: var(--chinh); color: #fff; }
+        .btn-chinh:hover { background: #185a44; }
+        .btn-nho { padding: 4px 10px; font-size: 13px; }
+        .btn-do { color: var(--do); }
+        input[type=text], input[type=password], input[type=email], input[type=date], input[type=search], select { width: 100%; padding: 8px 10px; border: 1px solid var(--vien); border-radius: 7px; background: #fff; font: inherit; font-size: 14px; color: var(--chu); }
+        input:focus, select:focus, .btn:focus { outline: 2px solid var(--chinh); outline-offset: 1px; }
+        .the-so { display: flex; gap: 14px; flex-wrap: wrap; margin: 16px 0 22px; }
+        .the { background: #fff; border: 1px solid var(--vien); border-radius: 10px; padding: 14px 20px; min-width: 165px; }
+        .the b { display: block; font-size: 30px; line-height: 1.2; }
+        .the span { color: var(--chu2); font-size: 14px; }
+        .the.canh-bao b { color: var(--vang); }
+        .luoi2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 18px; }
+        .hop { background: #fff; border: 1px solid var(--vien); border-radius: 10px; padding: 16px 18px; }
+        .cuon { overflow-x: auto; border: 1px solid var(--vien); border-radius: 10px; background: #fff; }
+        table.bang { width: 100%; border-collapse: collapse; }
+        .bang th, .bang td { padding: 9px 12px; text-align: left; border-bottom: 1px solid #e8ebe5; white-space: nowrap; }
+        .bang th { background: #eef1ec; font-size: 13px; color: var(--chu2); font-weight: 600; }
+        .bang tr:last-child td { border-bottom: 0; }
+        .bang .giua { text-align: center; }
+        .the-nho { display: inline-block; padding: 1px 9px; border-radius: 999px; font-size: 12px; background: #eef1ec; color: var(--chu2); }
+        .the-nho.vang { background: var(--vang-nhat); color: var(--vang); }
+        .the-nho.do { background: var(--do-nhat); color: var(--do); }
+        .the-nho.xanh { background: var(--chinh-nhat); color: var(--chinh); }
+        .thanh-loc { display: flex; gap: 10px; flex-wrap: wrap; margin: 12px 0; align-items: center; }
+        .thanh-loc > * { width: auto; }
+        .thanh-loc input[type=search] { width: 260px; }
+        .phan-trang { margin-top: 12px; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; color: var(--chu2); }
+        .luoi-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px 18px; }
+        .truong label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; color: var(--chu2); }
+        .truong .loi, .field-validation-error { color: var(--do); font-size: 13px; }
+        .validation-summary-errors { color: var(--do); background: var(--do-nhat); padding: 8px 14px; border-radius: 8px; margin-bottom: 12px; }
+        .validation-summary-errors ul { margin: 0; padding-left: 18px; }
+        .input-validation-error { border-color: var(--do) !important; }
+        .khung-dn { max-width: 380px; margin: 9vh auto; }
+        .hop-dn { background: #fff; border: 1px solid var(--vien); border-radius: 12px; padding: 26px; }
+        .hop-dn p { margin: 0 0 12px; }
+        .chia { display: flex; gap: 22px; flex-wrap: wrap; align-items: flex-start; }
+        .cot-vaitro { width: 250px; flex: none; }
+        .vaitro { display: block; padding: 9px 13px; margin-bottom: 6px; border: 1px solid var(--vien); border-radius: 8px; color: var(--chu); text-decoration: none; background: #fff; }
+        .vaitro.on { border-color: var(--chinh); background: var(--chinh-nhat); font-weight: 600; }
+        .cot-chinh { flex: 1; min-width: 320px; }
+        .nhom td { background: #eef1ec; font-weight: 600; }
+        @@media (max-width: 760px) { .khung { flex-direction: column; } .menu { width: 100%; } .noidung { padding: 18px 14px 40px; } }
+    </style>
+</head>
+<body>
+@if (dangNhap)
+{
+    <div class="khung">
+        <nav class="menu">
+            <h1>Quản lý nhân sự</h1>
+            <a class="@lop("Home")" href="@Url.Action("Index", "Home")">Tổng quan</a>
+            @if (PhanQuyenHelper.CoQuyen("Employee.View"))
+            {
+                <a class="@lop("NhanSu")" href="@Url.Action("Index", "NhanSu")">Nhân sự</a>
+            }
+            @if (PhanQuyenHelper.CoQuyen("Contract.View"))
+            {
+                <a class="@lop("HopDong")" href="@Url.Action("Index", "HopDong")">Hợp đồng</a>
+            }
+            @if (PhanQuyenHelper.CoQuyen("Permission.Manage"))
+            {
+                <a class="@lop("PhanQuyen")" href="@Url.Action("Index", "PhanQuyen")">Phân quyền</a>
+            }
+            <div class="cuoi">
+                <b>@ten</b>
+                <a href="@Url.Action("DangXuat", "Login")">Đăng xuất</a>
+            </div>
+        </nav>
+        <main class="noidung">
+            @if (TempData["Ok"] != null) { <div class="alert alert-ok" role="status">@TempData["Ok"]</div> }
+            @if (TempData["Loi"] != null) { <div class="alert alert-loi" role="alert">@TempData["Loi"]</div> }
+            @RenderBody()
+        </main>
+    </div>
+}
+else
+{
+    <div class="khung-dn">
+        @RenderBody()
+    </div>
+}
+</body>
+</html>

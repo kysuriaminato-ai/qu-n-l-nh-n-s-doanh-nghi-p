@@ -1,0 +1,102 @@
+﻿@model quản_lý_nhân_sự_doanh_nghiệp.Models.NhanSuChiTietVM
+@using quản_lý_nhân_sự_doanh_nghiệp.Models
+@{
+    ViewBag.Title = "Hồ sơ nhân viên";
+    var nv = Model.NhanVien;
+    var d = Model.ChiTiet;
+    var hienTai = Model.LichSu.FirstOrDefault(x => x.HienTai);
+}
+
+<div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:10px">
+    <div>
+        <h2>@nv.LastName @nv.FirstName</h2>
+        <p class="phu">Mã @nv.EmpCode @if (!string.IsNullOrEmpty(nv.Status)) { <span class="the-nho">@nv.Status</span> }</p>
+    </div>
+    <div>
+        <a class="btn" href="@Url.Action("Index")">Về danh sách</a>
+        @if (PhanQuyenHelper.CoQuyen("Employee.Edit"))
+        {
+            <a class="btn btn-chinh" href="@Url.Action("Edit", new { id = nv.EmployeeId })">Sửa hồ sơ</a>
+        }
+    </div>
+</div>
+
+<div class="luoi2" style="margin-top:12px">
+    <section class="hop">
+        <h3>Thông tin cá nhân</h3>
+        <table class="bang">
+            <tr><th>Giới tính</th><td>@nv.Gender</td></tr>
+            <tr><th>Ngày sinh</th><td>@(nv.BirthDate.HasValue ? nv.BirthDate.Value.ToString("dd/MM/yyyy") : "")</td></tr>
+            <tr><th>Ngày vào làm</th><td>@nv.JoinDate.ToString("dd/MM/yyyy")</td></tr>
+            <tr><th>CCCD/CMND</th><td>@(d != null ? d.IdentityCard : "")</td></tr>
+            <tr><th>Điện thoại</th><td>@(d != null ? d.Phone : "")</td></tr>
+            <tr><th>Email</th><td>@(d != null ? d.Email : "")</td></tr>
+            <tr><th>Địa chỉ</th><td style="white-space:normal">@(d != null ? d.Address : "")</td></tr>
+        </table>
+    </section>
+
+    <section class="hop">
+        <h3>Vị trí hiện tại</h3>
+        @if (hienTai == null)
+        {
+            <p class="phu">Nhân viên chưa được xếp vào phòng ban nào.</p>
+        }
+        else
+        {
+            <p style="margin:0"><b>@hienTai.ChucVu</b><br />@hienTai.PhongBan<br /><span class="phu">Từ @hienTai.NgayHieuLuc.ToString("dd/MM/yyyy")</span></p>
+        }
+
+        <h3 style="margin-top:18px">Lịch sử công tác</h3>
+        @if (Model.LichSu.Count == 0)
+        {
+            <p class="phu">Chưa có lịch sử.</p>
+        }
+        else
+        {
+            <table class="bang">
+                <thead><tr><th>Từ ngày</th><th>Phòng ban</th><th>Chức vụ</th></tr></thead>
+                <tbody>
+                @foreach (var p in Model.LichSu)
+                {
+                    <tr><td>@p.NgayHieuLuc.ToString("dd/MM/yyyy")</td><td>@p.PhongBan</td><td>@p.ChucVu @if (p.HienTai) { <span class="the-nho xanh">hiện tại</span> }</td></tr>
+                }
+                </tbody>
+            </table>
+        }
+    </section>
+</div>
+
+@if (PhanQuyenHelper.CoQuyen("Contract.View"))
+{
+    <section class="hop" style="margin-top:18px">
+        <h3>Hợp đồng lao động</h3>
+        @if (Model.HopDongs.Count == 0)
+        {
+            <p class="phu" style="margin:0">Chưa có hợp đồng.</p>
+        }
+        else
+        {
+            <div class="cuon">
+                <table class="bang">
+                    <thead><tr><th>Loại</th><th>Bắt đầu</th><th>Kết thúc</th><th>Tình trạng</th></tr></thead>
+                    <tbody>
+                    @foreach (var h in Model.HopDongs)
+                    {
+                        <tr>
+                            <td>@h.Loai</td>
+                            <td>@h.BatDau.ToString("dd/MM/yyyy")</td>
+                            <td>@(h.KetThuc.HasValue ? h.KetThuc.Value.ToString("dd/MM/yyyy") : "Không thời hạn")</td>
+                            <td>
+                                @if (!h.KetThuc.HasValue) { <span class="the-nho xanh">Không thời hạn</span> }
+                                else if (h.SoNgayCon < 0) { <span class="the-nho do">Đã hết hạn</span> }
+                                else if (h.SoNgayCon <= 30) { <span class="the-nho vang">Còn @h.SoNgayCon ngày</span> }
+                                else { <span class="the-nho xanh">Còn hiệu lực</span> }
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </section>
+}

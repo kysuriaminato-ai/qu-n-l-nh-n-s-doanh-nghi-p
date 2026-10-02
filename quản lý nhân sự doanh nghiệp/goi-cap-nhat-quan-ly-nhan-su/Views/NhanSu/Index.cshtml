@@ -1,0 +1,88 @@
+﻿@model quản_lý_nhân_sự_doanh_nghiệp.Models.NhanSuListVM
+@using quản_lý_nhân_sự_doanh_nghiệp.Models
+@{ ViewBag.Title = "Nhân sự"; }
+
+<div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:10px">
+    <div>
+        <h2>Nhân sự</h2>
+        <p class="phu">@Model.Tong nhân viên</p>
+    </div>
+    @if (PhanQuyenHelper.CoQuyen("Employee.Create"))
+    {
+        <a class="btn btn-chinh" href="@Url.Action("Create")">Thêm nhân viên</a>
+    }
+</div>
+
+<form method="get" action="@Url.Action("Index")" class="thanh-loc">
+    <input type="search" name="q" value="@Model.Q" placeholder="Tìm theo mã hoặc họ tên" aria-label="Tìm nhân viên" />
+    <select name="phongBan" aria-label="Lọc theo phòng ban">
+        <option value="">Tất cả phòng ban</option>
+        @foreach (var p in Model.PhongBans)
+        {
+            <option value="@p.Value" @(Model.PhongBan.HasValue && Model.PhongBan.Value.ToString() == p.Value ? "selected" : "")>@p.Text</option>
+        }
+    </select>
+    <select name="trangThai" aria-label="Lọc theo trạng thái">
+        <option value="">Mọi trạng thái</option>
+        @foreach (var t in Model.TrangThais)
+        {
+            <option value="@t" @(Model.TrangThai == t ? "selected" : "")>@t</option>
+        }
+    </select>
+    <button type="submit" class="btn">Lọc</button>
+    @if (!string.IsNullOrEmpty(Model.Q) || Model.PhongBan.HasValue || !string.IsNullOrEmpty(Model.TrangThai))
+    {
+        <a href="@Url.Action("Index")">Bỏ lọc</a>
+    }
+</form>
+
+@if (Model.Rows.Count == 0)
+{
+    <div class="hop"><p class="phu" style="margin:0">Không tìm thấy nhân viên phù hợp. Thử đổi từ khóa hoặc bỏ bộ lọc.</p></div>
+}
+else
+{
+    <div class="cuon">
+        <table class="bang">
+            <thead>
+                <tr><th>Mã</th><th>Họ và tên</th><th>Giới tính</th><th>Phòng ban</th><th>Chức vụ</th><th>Điện thoại</th><th>Ngày vào</th><th>Trạng thái</th><th></th></tr>
+            </thead>
+            <tbody>
+            @foreach (var r in Model.Rows)
+            {
+                <tr>
+                    <td>@r.Ma</td>
+                    <td><a href="@Url.Action("Details", new { id = r.Id })">@r.Ho @r.Ten</a></td>
+                    <td>@r.GioiTinh</td>
+                    <td>@(r.PhongBan ?? "Chưa xếp")</td>
+                    <td>@r.ChucVu</td>
+                    <td>@r.Sdt</td>
+                    <td>@r.NgayVao.ToString("dd/MM/yyyy")</td>
+                    <td>@if (!string.IsNullOrEmpty(r.TrangThai)) { <span class="the-nho">@r.TrangThai</span> }</td>
+                    <td>
+                        @if (PhanQuyenHelper.CoQuyen("Employee.Edit"))
+                        {
+                            <a class="btn btn-nho" href="@Url.Action("Edit", new { id = r.Id })">Sửa</a>
+                        }
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+
+    if (Model.TongTrang > 1)
+    {
+        <div class="phan-trang">
+            <span>Trang @Model.Trang / @Model.TongTrang</span>
+            @if (Model.Trang > 1)
+            {
+                <a class="btn btn-nho" href="@Url.Action("Index", new { q = Model.Q, phongBan = Model.PhongBan, trangThai = Model.TrangThai, trang = Model.Trang - 1 })">Trang trước</a>
+            }
+            @if (Model.Trang < Model.TongTrang)
+            {
+                <a class="btn btn-nho" href="@Url.Action("Index", new { q = Model.Q, phongBan = Model.PhongBan, trangThai = Model.TrangThai, trang = Model.Trang + 1 })">Trang sau</a>
+            }
+        </div>
+    }
+}

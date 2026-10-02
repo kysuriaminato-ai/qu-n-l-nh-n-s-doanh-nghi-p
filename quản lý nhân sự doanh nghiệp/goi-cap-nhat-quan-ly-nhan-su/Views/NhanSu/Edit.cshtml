@@ -1,0 +1,15 @@
+﻿@model quản_lý_nhân_sự_doanh_nghiệp.Models.NhanSuForm
+@{ ViewBag.Title = "Sửa hồ sơ"; }
+
+<h2>Sửa hồ sơ nhân viên</h2>
+<p class="phu">Nếu đổi phòng ban hoặc chức vụ, hệ thống giữ lại vị trí cũ trong lịch sử công tác.</p>
+
+@using (Html.BeginForm("Edit", "NhanSu", new { id = Model.EmployeeId }, FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.Partial("_Form", Model)
+    <p style="margin-top:22px">
+        <button type="submit" class="btn btn-chinh">Lưu thay đổi</button>
+        <a class="btn" href="@Url.Action("Details", new { id = Model.EmployeeId })">Hủy</a>
+    </p>
+}

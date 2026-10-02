@@ -1,0 +1,121 @@
+﻿@model quản_lý_nhân_sự_doanh_nghiệp.Models.PhanQuyenViewModel
+@using quản_lý_nhân_sự_doanh_nghiệp.Models
+@{ ViewBag.Title = "Phân quyền"; }
+
+<h2>Phân quyền</h2>
+<p class="phu">
+    <b>Vai trò và quyền</b> &nbsp;|&nbsp; <a href="@Url.Action("NguoiDung")">Tài khoản và vai trò của từng người</a>
+</p>
+
+<div class="chia">
+    <div class="cot-vaitro">
+        @foreach (var vt in Model.VaiTros)
+        {
+            <a class="vaitro @(Model.VaiTroChon != null && vt.RoleId == Model.VaiTroChon.RoleId ? "on" : "")" href="@Url.Action("Index", new { id = vt.RoleId })">
+                @vt.RoleName
+                @if (vt.RoleCode == PhanQuyenHelper.MaQuanTri) { <span class="the-nho">Quản trị</span> }
+            </a>
+        }
+
+        <div class="hop" style="margin-top:12px">
+            <h3>Tạo vai trò mới</h3>
+            @using (Html.BeginForm("TaoVaiTro", "PhanQuyen", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <p style="margin:0 0 8px"><input type="text" name="roleCode" placeholder="Mã, ví dụ HR" aria-label="Mã vai trò" /></p>
+                <p style="margin:0 0 8px"><input type="text" name="roleName" placeholder="Tên vai trò" aria-label="Tên vai trò" /></p>
+                <p style="margin:0 0 8px"><input type="text" name="moTa" placeholder="Mô tả (không bắt buộc)" aria-label="Mô tả" /></p>
+                <button type="submit" class="btn">Tạo vai trò</button>
+            }
+        </div>
+    </div>
+
+    <div class="cot-chinh">
+        @if (Model.VaiTroChon == null)
+        {
+            <div class="hop"><p class="phu" style="margin:0">Chưa có vai trò nào. Hãy tạo vai trò đầu tiên ở cột bên trái.</p></div>
+        }
+        else
+        {
+            <h3 style="font-size:20px">@Model.VaiTroChon.RoleName</h3>
+            <p class="phu">@(string.IsNullOrEmpty(Model.VaiTroChon.Description) ? "Chưa có mô tả." : Model.VaiTroChon.Description) &nbsp;·&nbsp; @Model.SoNguoi người đang giữ vai trò này</p>
+
+            if (Model.Khoa)
+            {
+                <div class="alert alert-ok">Vai trò quản trị luôn có toàn quyền và xem được mọi chi nhánh nên không thể chỉnh sửa.</div>
+            }
+
+            using (Html.BeginForm("Luu", "PhanQuyen", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="maVaiTro" value="@Model.VaiTroChon.RoleId" />
+
+                <div class="cuon">
+                    <table class="bang">
+                        <thead><tr><th style="width:44px"></th><th>Mã quyền</th><th>Mô tả</th></tr></thead>
+                        <tbody>
+                        @foreach (var nhom in Model.Quyens.GroupBy(p => p.Module))
+                        {
+                            <tr class="nhom">
+                                <td colspan="3">
+                                    <label><input type="checkbox" class="chon-nhom" @(Model.Khoa ? "checked disabled" : "") /> @nhom.Key</label>
+                                </td>
+                            </tr>
+                            foreach (var p in nhom)
+                            {
+                                <tr>
+                                    <td class="giua"><input type="checkbox" name="quyen" value="@p.PermissionId" aria-label="@p.Code"
+                                        @(Model.Khoa || Model.DaCap.Contains(p.PermissionId) ? "checked" : "") @(Model.Khoa ? "disabled" : "") /></td>
+                                    <td><code>@p.Code</code></td>
+                                    <td style="white-space:normal">@p.Description</td>
+                                </tr>
+                            }
+                        }
+                        </tbody>
+                    </table>
+                </div>
+
+                if (!Model.Khoa)
+                {
+                    <p><button type="submit" class="btn btn-chinh">Lưu quyền</button></p>
+                }
+            }
+
+            if (!Model.Khoa)
+            {
+                <section class="hop" style="margin-top:20px">
+                    <h3>Phạm vi dữ liệu theo chi nhánh</h3>
+                    <p class="phu">Chỉ tick chi nhánh khi muốn giới hạn. Nếu không tick chi nhánh nào, người giữ vai trò này xem được tất cả chi nhánh.</p>
+                    @using (Html.BeginForm("LuuPhamVi", "PhanQuyen", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="maVaiTro" value="@Model.VaiTroChon.RoleId" />
+                        if (Model.ChiNhanhs.Count == 0)
+                        {
+                            <p class="phu">Chưa có chi nhánh nào trong hệ thống.</p>
+                        }
+                        foreach (var b in Model.ChiNhanhs)
+                        {
+                            <p style="margin:4px 0"><label><input type="checkbox" name="chiNhanh" value="@b.BranchId" @(Model.PhamVi.Contains(b.BranchId) ? "checked" : "") /> @b.BranchName</label></p>
+                        }
+                        <p style="margin-top:12px"><button type="submit" class="btn">Lưu phạm vi</button></p>
+                    }
+                </section>
+            }
+        }
+    </div>
+</div>
+
+<script>
+    // Tick cả nhóm quyền theo module
+    document.querySelectorAll('.chon-nhom').forEach(function (nhom) {
+        nhom.addEventListener('change', function () {
+            var tr = nhom.closest('tr').nextElementSibling;
+            while (tr && !tr.classList.contains('nhom')) {
+                var cb = tr.querySelector('input[name="quyen"]');
+                if (cb && !cb.disabled) cb.checked = nhom.checked;
+                tr = tr.nextElementSibling;
+            }
+        });
+    });
+</script>

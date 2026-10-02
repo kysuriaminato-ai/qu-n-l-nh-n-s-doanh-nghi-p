@@ -1,0 +1,75 @@
+﻿@model List<quản_lý_nhân_sự_doanh_nghiệp.Models.User>
+@using quản_lý_nhân_sự_doanh_nghiệp.Models
+@{
+    ViewBag.Title = "Tài khoản";
+    var vaiTros = (List<Role>)ViewBag.VaiTros;
+    var nhanVien = (List<SelectListItem>)ViewBag.NhanVien;
+    int? meId = (int?)ViewBag.MeId;
+}
+
+<h2>Phân quyền</h2>
+<p class="phu">
+    <a href="@Url.Action("Index")">Vai trò và quyền</a> &nbsp;|&nbsp; <b>Tài khoản và vai trò của từng người</b>
+</p>
+
+<details class="hop" style="margin-bottom:16px">
+    <summary style="cursor:pointer;font-weight:600">Tạo tài khoản mới</summary>
+    @using (Html.BeginForm("TaoTaiKhoan", "PhanQuyen", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="luoi-form" style="margin-top:12px">
+            <div class="truong"><label for="username">Tên đăng nhập</label><input type="text" id="username" name="username" autocomplete="off" /></div>
+            <div class="truong"><label for="matKhau">Mật khẩu (từ 6 ký tự)</label><input type="password" id="matKhau" name="matKhau" autocomplete="new-password" /></div>
+            <div class="truong">
+                <label for="employeeId">Gắn với nhân viên (không bắt buộc)</label>
+                <select id="employeeId" name="employeeId">
+                    <option value="">Không gắn</option>
+                    @foreach (var n in nhanVien) { <option value="@n.Value">@n.Text</option> }
+                </select>
+            </div>
+            <div class="truong">
+                <label for="roleId">Vai trò ban đầu</label>
+                <select id="roleId" name="roleId">
+                    <option value="">Chưa gán</option>
+                    @foreach (var r in vaiTros) { <option value="@r.RoleId">@r.RoleName</option> }
+                </select>
+            </div>
+        </div>
+        <p style="margin:12px 0 0"><button type="submit" class="btn btn-chinh">Tạo tài khoản</button></p>
+    }
+</details>
+
+<div class="cuon">
+    <table class="bang">
+        <thead><tr><th>Tài khoản</th><th>Nhân viên</th><th>Vai trò</th><th>Trạng thái</th><th>Thao tác</th></tr></thead>
+        <tbody>
+        @foreach (var u in Model)
+        {
+            bool la = meId.HasValue && meId.Value == u.UserId;
+            <tr>
+                <td>@u.Username @if (la) { <span class="the-nho xanh">Bạn</span> }</td>
+                <td>@(u.Employee != null ? u.Employee.LastName + " " + u.Employee.FirstName : "")</td>
+                <td>@(u.Roles.Any() ? string.Join(", ", u.Roles.Select(r => r.RoleName)) : "Chưa có vai trò")</td>
+                <td>@if (u.IsActive == true) { <span class="the-nho xanh">Hoạt động</span> } else { <span class="the-nho do">Đã khóa</span> }</td>
+                <td>
+                    <a class="btn btn-nho" href="@Url.Action("GanVaiTro", new { id = u.UserId })">Sửa vai trò</a>
+                    @if (!la)
+                    {
+                        using (Html.BeginForm("DoiTrangThai", "PhanQuyen", new { id = u.UserId }, FormMethod.Post, new { style = "display:inline" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-nho @(u.IsActive == true ? "btn-do" : "")">@(u.IsActive == true ? "Khóa" : "Mở khóa")</button>
+                        }
+                    }
+                    @using (Html.BeginForm("DatLaiMatKhau", "PhanQuyen", new { id = u.UserId }, FormMethod.Post, new { style = "display:inline;margin-left:6px" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <input type="password" name="matKhauMoi" placeholder="Mật khẩu mới" aria-label="Mật khẩu mới cho @u.Username" autocomplete="new-password" style="width:140px;padding:4px 8px" />
+                        <button type="submit" class="btn btn-nho">Đặt lại</button>
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

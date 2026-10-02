@@ -1,0 +1,24 @@
+﻿@{ ViewBag.Title = "Đăng nhập"; }
+
+<div class="hop-dn">
+    <h2>Đăng nhập</h2>
+    <p class="phu">Hệ thống quản lý nhân sự doanh nghiệp</p>
+
+    @if (ViewBag.Loi != null)
+    {
+        <div class="alert alert-loi" role="alert">@ViewBag.Loi</div>
+    }
+
+    @using (Html.BeginForm("Index", "Login", FormMethod.Post))
+    {
+        <p>
+            <label for="tenDangNhap" style="display:block;font-size:13px;font-weight:600;margin-bottom:4px">Tên đăng nhập</label>
+            <input type="text" id="tenDangNhap" name="tenDangNhap" autocomplete="username" autofocus />
+        </p>
+        <p>
+            <label for="matKhau" style="display:block;font-size:13px;font-weight:600;margin-bottom:4px">Mật khẩu</label>
+            <input type="password" id="matKhau" name="matKhau" autocomplete="current-password" />
+        </p>
+        <button type="submit" class="btn btn-chinh" style="width:100%">Đăng nhập</button>
+    }
+</div>
